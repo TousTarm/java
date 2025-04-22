@@ -13,17 +13,14 @@ public class Batoh {
         seznamVeci = new ArrayList<Vec>();
     }
 
-    public String dlouhyPopis() {
-        return "Máš v batohu: " + vypisBatohu();
-    }
-
-    private String vypisBatohu(){
-        String vypis = "";
-        for (Vec vec : seznamVeci){
+    public String vypisBatohu() {
+        String vypis = "Máš v batohu: ";
+        for (Vec vec : seznamVeci) {
             vypis += vec.getNazev() + " ";
         }
-        return vypis;
+        return vypis.trim(); // trim() odstraní přebytečné mezery na konci
     }
+
 
     public boolean obsahujeVec(String nazevVeci){
         for(Vec vec : seznamVeci){

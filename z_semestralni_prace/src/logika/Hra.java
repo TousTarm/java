@@ -85,7 +85,7 @@ public class Hra implements IHra {
         if (platnePrikazy.jePlatnyPrikaz(slovoPrikazu)) {
             IPrikaz prikaz = platnePrikazy.vratPrikaz(slovoPrikazu);
             textKVypsani = prikaz.provedPrikaz(parametry);
-            textKVypsani += "\n" + herniPlan.getBatoh().dlouhyPopis();
+            textKVypsani += "\n" + herniPlan.getBatoh().vypisBatohu();
         }
         else {
             textKVypsani="Nevím co tím myslíš? Tento příkaz neznám. ";

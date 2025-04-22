@@ -30,7 +30,6 @@ public class PrikazPoloz implements IPrikaz{
         return "";
     }
 
-
     @Override
     public String getNazev() {
         return NAZEV;
