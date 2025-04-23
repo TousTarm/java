@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Batoh {
 
-    private List<Vec> seznamVeci;
+    private static List<Vec> seznamVeci;
     private int omezeniBatohu;
 
     public Batoh(int omezeniBatohu) {
@@ -13,7 +13,7 @@ public class Batoh {
         seznamVeci = new ArrayList<Vec>();
     }
 
-    public String vypisBatohu() {
+    public static String vypisBatohu() {
         String vypis = "Máš v batohu: ";
         for (Vec vec : seznamVeci) {
             vypis += vec.getNazev() + " ";

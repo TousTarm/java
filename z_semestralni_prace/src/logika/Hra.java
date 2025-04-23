@@ -28,7 +28,6 @@ public class Hra implements IHra {
                 herniPlan.getAktualniProstor().dlouhyPopis();
     }
 
-
     public String vratEpilog() {
         return epilog;
     }
@@ -41,25 +40,28 @@ public class Hra implements IHra {
         return konecHry;
     }
 
-     public String zpracujPrikaz(String radek) {
-        String [] slova = radek.split("[ \t]+");
-        // Jdi les někam [Jdi= 0, les=1, někam=2]
+    public String zpracujPrikaz(String radek) {
+        String[] slova = radek.split("[ \t]+");
         String slovoPrikazu = slova[0];
-        // 0 = Jdi
-        String []parametry = new String[slova.length-1];
-         // [0,1]
-        for(int i=0 ;i<parametry.length;i++){
-           	parametry[i]= slova[i+1];  	
+        String[] parametry = new String[slova.length-1];
+
+        for(int i=0; i<parametry.length; i++) {
+            parametry[i] = slova[i+1];
         }
-        String textKVypsani=" .... ";
+
+        String textKVypsani;
+
         if (platnePrikazy.jePlatnyPrikaz(slovoPrikazu)) {
             IPrikaz prikaz = platnePrikazy.vratPrikaz(slovoPrikazu);
             textKVypsani = prikaz.provedPrikaz(parametry);
-            textKVypsani += "\n" + herniPlan.getBatoh().vypisBatohu();
+
+            // Always append the full room description after successful commands
+            textKVypsani += "\n" + herniPlan.getAktualniProstor().dlouhyPopis();
         }
         else {
-            textKVypsani="Nevím co tím myslíš? Tento příkaz neznám. ";
+            textKVypsani = "Nevím co tím myslíš? Tento příkaz neznám.";
         }
+
         return textKVypsani;
     }
 

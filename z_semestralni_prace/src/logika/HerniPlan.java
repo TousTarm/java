@@ -3,7 +3,7 @@ package logika;
 public class HerniPlan {
     
     private Prostor aktualniProstor;
-    private final Batoh batoh;
+    public final Batoh batoh;
 
     public HerniPlan() {
         zalozProstoryHry();
@@ -13,7 +13,7 @@ public class HerniPlan {
     private void zalozProstoryHry() {
         Prostor vesnice = new Prostor("vesnice", "vesnice, kde lidé žijí ve strachu z draka");
         Prostor hrad = new Prostor("hrad", "hrad, na trůnu zde sedí sám král, v hradu je smutno a král je starý");
-        Prostor knihovna = new Prostor("knihovna", "knihovna, kde lze nalézt staré knihy a možná i mapu");
+        Prostor knihovna = new Prostor("knihovna", "knihovna, kde lze nalézt staré knihy");
         Prostor kovarna = new Prostor("kovarna", "kovárna, kde kovář nabízí meč výměnou za dračí zub");
         Prostor lesniCesta = new Prostor("lesni_cesta", "lesní cesta, která vede k tajemnému místu");
         Prostor draciDoupe = new Prostor("draci_doupe", "jeskyně plná goblinů a nebezpečí");
@@ -48,14 +48,13 @@ public class HerniPlan {
 
         Vec mapa = new Vec("mapa", true,true,false);
         knihovna.vlozVec(mapa);
-        Npc kral = new Npc("Král", "Ano, drak nám pálí pole, unáší náš lid. Když ho zabiješ, dám ti půl království.", "hrad",null);
+        Npc kral = new Npc("Král", "Ano, drak nám pálí pole, unáší náš lid. Když ho zabiješ, dám ti půl království. Mapu najdeš v knihovně.", "hrad",null);
         hrad.vlozNpc(kral);
         Npc cernokneznik = new Npc("Černokněžník", "Stačí vyčarovat 'fire_resistence' pro ochranu před ohněm.", "vesnice");
         vesnice.vlozNpc(cernokneznik);
-        Npc kovar = new Npc("Kovář", "Dám ti meč, když mi přineseš dračí zub.", "kovarna",hra -> {
+        Npc kovar = new Npc("Kovář", "Zde máš meč. Naoplátku mi přines dračí zub.", "kovarna",hra -> {
             Vec mec = new Vec("mec", true,false,true);
             hra.getHerniPlan().getAktualniProstor().vlozVec(mec);
-            System.out.println("MEC VLOZEN");
         });
         kovarna.vlozNpc(kovar);
     }

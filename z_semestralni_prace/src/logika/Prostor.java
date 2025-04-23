@@ -48,7 +48,7 @@ public class Prostor {
     }
 
     public String dlouhyPopis() {
-        return "Jsi v mistnosti/prostoru " + popis + ".\n" + popisVychodu() + "\n" + seznamVeci();
+        return "Jsi v mistnosti/prostoru " + popis + ".\n" + popisVychodu() + "\n" + Batoh.vypisBatohu() + "\n" + seznamVeci() ;
     }
 
     private String popisVychodu() {
@@ -104,14 +104,23 @@ public class Prostor {
         return vybranaVec;
     }
 
-    private String seznamVeci() {
-        String seznam = "Seznam věcí: ";
+    public String seznamVeci() {
+        StringBuilder sb = new StringBuilder("seznam věcí:");
+        boolean firstItem = true;
+
         for (Vec vec : seznamVeci) {
-            if (!vec.jeSkryta()) {  // Only show non-hidden items
-                seznam += vec.getNazev() + " ";
+            if (!vec.jeSkryta()) {
+                if (firstItem) {
+                    sb.append(" ");
+                    firstItem = false;
+                } else {
+                    sb.append(" ");
+                }
+                sb.append(vec.getNazev());
             }
         }
-        return seznam.trim().equals("Seznam věcí:") ? "V místnosti nejsou žádné věci." : seznam;
+
+        return sb.toString();
     }
 
     public List<Vec> getSeznamVeci() {
