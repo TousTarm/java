@@ -16,6 +16,7 @@ public class Hra implements IHra {
 
         platnePrikazy.vlozPrikaz(new PrikazMluv(herniPlan,this));
         platnePrikazy.vlozPrikaz(new PrikazHledej(herniPlan));
+        platnePrikazy.vlozPrikaz(new PrikazSkryj_se());
     }
 
     public String vratUvitani() {
@@ -55,8 +56,14 @@ public class Hra implements IHra {
             IPrikaz prikaz = platnePrikazy.vratPrikaz(slovoPrikazu);
             textKVypsani = prikaz.provedPrikaz(parametry);
 
-            // Always append the full room description after successful commands
+            // Always append the full room description
             textKVypsani += "\n" + herniPlan.getAktualniProstor().dlouhyPopis();
+            // Only reveal if the command wasn't "skryj_se"
+            if (!slovoPrikazu.equals(PrikazSkryj_se.getNazevStatic())) {
+                if (PrikazSkryj_se.odhalit()) {
+                    textKVypsani += "\nTato akce tě odhalila!";
+                }
+            }
         }
         else {
             textKVypsani = "Nevím co tím myslíš? Tento příkaz neznám.";

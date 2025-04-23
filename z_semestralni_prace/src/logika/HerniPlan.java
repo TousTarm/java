@@ -11,7 +11,7 @@ public class HerniPlan {
     }
 
     private void zalozProstoryHry() {
-        Prostor vesnice = new Prostor("vesnice", "vesnice, kde lidé žijí ve strachu z draka");
+        Prostor vesnice = new Prostor("vesnice", "vesnice, kde lidé žijí ve strachu z draka. Na náměstí tam stojí černokněžník.");
         Prostor hrad = new Prostor("hrad", "hrad, na trůnu zde sedí sám král, v hradu je smutno a král je starý");
         Prostor knihovna = new Prostor("knihovna", "knihovna, kde lze nalézt staré knihy");
         Prostor kovarna = new Prostor("kovarna", "kovárna, kde kovář nabízí meč výměnou za dračí zub");
@@ -50,7 +50,7 @@ public class HerniPlan {
         knihovna.vlozVec(mapa);
         Npc kral = new Npc("Král", "Ano, drak nám pálí pole, unáší náš lid. Když ho zabiješ, dám ti půl království. Mapu najdeš v knihovně.", "hrad",null);
         hrad.vlozNpc(kral);
-        Npc cernokneznik = new Npc("Černokněžník", "Stačí vyčarovat 'fire_resistence' pro ochranu před ohněm.", "vesnice");
+        Npc cernokneznik = new Npc("Černokněžník", "Drak je nebezpečný, potřebuješ se chránit proti ohni. Kouzlo 'fire_resistance' tě ochrání", "vesnice");
         vesnice.vlozNpc(cernokneznik);
         Npc kovar = new Npc("Kovář", "Zde máš meč. Naoplátku mi přines dračí zub.", "kovarna",hra -> {
             Vec mec = new Vec("mec", true,false,true);
