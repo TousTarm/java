@@ -5,9 +5,9 @@ public interface IHra {
 
     public String vratEpilog();
 
-     public boolean konecHry();
+    public boolean konecHry();
 
-     public String zpracujPrikaz(String radek);
+    public String zpracujPrikaz(String radek);
 
-     public HerniPlan getHerniPlan();
+    public HerniPlan getHerniPlan();
 }

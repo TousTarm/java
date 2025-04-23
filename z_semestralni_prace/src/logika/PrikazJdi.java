@@ -13,13 +13,11 @@ public class PrikazJdi implements IPrikaz {
     @Override
     public String provedPrikaz(String... parametry) {
         if (parametry.length == 0) {
-            // pokud chybí druhé slovo (sousední prostor), tak ....
             return "Kam mám jít? Musíš zadat jméno východu";
         }
 
         String smer = parametry[0];
 
-        // zkoušíme přejít do sousedního prostoru
         Prostor sousedniProstor = plan.getAktualniProstor().vratSousedniProstor(smer);
 
         if (sousedniProstor == null) {

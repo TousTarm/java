@@ -9,12 +9,14 @@ public class Prostor {
     private String popis;
     private Set<Prostor> vychody;   // obsahuje sousední místnosti
     private List<Vec> seznamVeci;
+    private Npc npc;
 
     public Prostor(String nazev, String popis) {
         this.nazev = nazev;
         this.popis = popis;
         vychody = new HashSet<>();
         seznamVeci = new ArrayList<Vec>();
+        this.npc = null;
     }
 
     public void setVychod(Prostor vedlejsi) {
@@ -46,9 +48,7 @@ public class Prostor {
     }
 
     public String dlouhyPopis() {
-        return "Jsi v mistnosti/prostoru " + popis + ".\n"
-                + popisVychodu() + "\n"
-                + seznamVeci();
+        return "Jsi v mistnosti/prostoru " + popis + ".\n" + popisVychodu() + "\n" + seznamVeci();
     }
 
     private String popisVychodu() {
@@ -61,9 +61,7 @@ public class Prostor {
 
     public Prostor vratSousedniProstor(String nazevSouseda) {
         List<Prostor>hledaneProstory = 
-            vychody.stream()
-                   .filter(sousedni -> sousedni.getNazev().equals(nazevSouseda))
-                   .collect(Collectors.toList());
+            vychody.stream().filter(sousedni -> sousedni.getNazev().equals(nazevSouseda)).collect(Collectors.toList());
         if(hledaneProstory.isEmpty()){
             return null;
         }
@@ -106,11 +104,25 @@ public class Prostor {
         return vybranaVec;
     }
 
-    private String seznamVeci(){
+    private String seznamVeci() {
         String seznam = "Seznam věcí: ";
-        for (Vec vec : seznamVeci){
-            seznam += vec.getNazev() + " ";
+        for (Vec vec : seznamVeci) {
+            if (!vec.jeSkryta()) {  // Only show non-hidden items
+                seznam += vec.getNazev() + " ";
+            }
         }
-        return seznam;
+        return seznam.trim().equals("Seznam věcí:") ? "V místnosti nejsou žádné věci." : seznam;
+    }
+
+    public List<Vec> getSeznamVeci() {
+        return this.seznamVeci;
+    }
+
+    public void vlozNpc(Npc npc) {
+        this.npc = npc;
+    }
+
+    public Npc getNpc() {
+        return npc;
     }
 }

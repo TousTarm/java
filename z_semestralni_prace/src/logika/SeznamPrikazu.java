@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SeznamPrikazu {
-    // mapa pro uložení přípustných příkazů
     private  Map<String,IPrikaz> mapaSPrikazy;
 
     public SeznamPrikazu() {
@@ -24,7 +23,8 @@ public class SeznamPrikazu {
         }
     }
 
-    public boolean jePlatnyPrikaz(String retezec) {
+    public boolean jePlatnyPrikaz(String retezec)
+    {
         return mapaSPrikazy.containsKey(retezec);
     }
 
@@ -35,6 +35,5 @@ public class SeznamPrikazu {
         }
         return seznam;
     }
-    
 }
 
