@@ -7,7 +7,7 @@ public class Prostor {
 
     private String nazev;
     private String popis;
-    private Set<Prostor> vychody;   // obsahuje sousední místnosti
+    private Set<Prostor> vychody;
     private List<Vec> seznamVeci;
     private Npc npc;
 
@@ -47,11 +47,15 @@ public class Prostor {
         return nazev;       
     }
 
-    public String dlouhyPopis() {
-        return "Jsi v mistnosti/prostoru " + popis + ".\n" + popisVychodu() + "\n" + Batoh.vypisBatohu() + "\n" + seznamVeci() ;
+    public String normalniPopis(){
+        return "Jsi v mistnosti/prostoru " + nazev;
     }
 
-    private String popisVychodu() {
+    public String dlouhyPopis() {
+        return popis;
+    }
+
+    public String popisVychodu() {
         String vracenyText = "východy:";
         for (Prostor sousedni : vychody) {
             vracenyText += " " + sousedni.getNazev();

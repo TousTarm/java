@@ -1,28 +1,36 @@
 package logika;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HerniPlan {
-    
+
+    private List<Kouzlo> kouzla;
     private Prostor aktualniProstor;
     public final Batoh batoh;
 
+    private Prostor vesnice;
+    private Prostor lesniCesta;
+
     public HerniPlan() {
         zalozProstoryHry();
-        this.batoh  = new Batoh(4);
+        this.batoh = new Batoh(4);
+        this.kouzla = new ArrayList<>();
+        zalozKouzla();
     }
 
     private void zalozProstoryHry() {
-        Prostor vesnice = new Prostor("vesnice", "vesnice, kde lidé žijí ve strachu z draka. Na náměstí tam stojí černokněžník.");
-        Prostor hrad = new Prostor("hrad", "hrad, na trůnu zde sedí sám král, v hradu je smutno a král je starý");
-        Prostor knihovna = new Prostor("knihovna", "knihovna, kde lze nalézt staré knihy");
-        Prostor kovarna = new Prostor("kovarna", "kovárna, kde kovář nabízí meč výměnou za dračí zub");
-        Prostor lesniCesta = new Prostor("lesni_cesta", "lesní cesta, která vede k tajemnému místu");
-        Prostor draciDoupe = new Prostor("draci_doupe", "jeskyně plná goblinů a nebezpečí");
-        Prostor draciSal = new Prostor("draci_sal", "obrovský sál, kde sídlí zlý drak");
+        vesnice = new Prostor("vesnice", ", kde lidé žijí ve strachu z draka. Na náměstí tam stojí černokněžník.");
+        Prostor hrad = new Prostor("hrad", ", na trůnu zde sedí sám král, v hradu je smutno a král je starý.");
+        Prostor knihovna = new Prostor("knihovna", ", leží tu spousta starých knih.");
+        Prostor kovarna = new Prostor("kovarna", ", stárá kovárna, kovář zrovna dokoval nový meč.");
+        lesniCesta = new Prostor("lesni_cesta", ", plná žlutého listí. Na konci cesty je jeskyně.");
+        Prostor draciDoupe = new Prostor("draci_doupe", ", je tam spousta goblinů, až příliš mnoho. Jedna skupinka zrovna k tobě jde, ale nevidí tě.");
+        Prostor draciSal = new Prostor("draci_sal", ", je plný zlata a uprostřed leží drak");
 
         vesnice.setVychod(hrad);
         vesnice.setVychod(knihovna);
         vesnice.setVychod(kovarna);
-        vesnice.setVychod(lesniCesta);
 
         hrad.setVychod(vesnice);
         hrad.setVychod(knihovna);
@@ -36,24 +44,28 @@ public class HerniPlan {
         knihovna.setVychod(kovarna);
         knihovna.setVychod(hrad);
 
-        lesniCesta.setVychod(vesnice);
-        lesniCesta.setVychod(draciSal);
-
         draciDoupe.setVychod(lesniCesta);
         draciDoupe.setVychod(draciSal);
 
-        draciSal.setVychod(draciSal);
+        draciSal.setVychod(draciDoupe);
+        lesniCesta.setVychod(draciDoupe);
 
         aktualniProstor = vesnice;
 
-        Vec mapa = new Vec("mapa", true,true,false);
+        Vec mapa = new Vec("mapa", true, true, false);
         knihovna.vlozVec(mapa);
-        Npc kral = new Npc("Král", "Ano, drak nám pálí pole, unáší náš lid. Když ho zabiješ, dám ti půl království. Mapu najdeš v knihovně.", "hrad",null);
+
+        Npc kral = new Npc("Král", "ano, drak nám pálí pole, unáší náš lid. Když ho zabiješ, dám ti půl království. Mé stráže tě odvedou do knihovny pro mapu.", "hrad", null);
         hrad.vlozNpc(kral);
-        Npc cernokneznik = new Npc("Černokněžník", "Drak je nebezpečný, potřebuješ se chránit proti ohni. Kouzlo 'fire_resistance' tě ochrání", "vesnice");
+
+        Npc cernokneznik = new Npc("Černokněžník", "drak je nebezpečný, potřebuješ se chránit proti ohni. Kouzlo 'fire_resistance' tě ochrání.", "vesnice", hra -> {
+            Kouzlo fireBall = new Kouzlo("fire_resistence", "Jsi teď imuní vůči ohni!");
+            this.kouzla.add(fireBall);
+        });
         vesnice.vlozNpc(cernokneznik);
-        Npc kovar = new Npc("Kovář", "Zde máš meč. Naoplátku mi přines dračí zub.", "kovarna",hra -> {
-            Vec mec = new Vec("mec", true,false,true);
+
+        Npc kovar = new Npc("Kovář", "zde máš meč. Naoplátku mi přines dračí zub.", "kovarna", hra -> {
+            Vec mec = new Vec("mec", true, false, true);
             hra.getHerniPlan().getAktualniProstor().vlozVec(mec);
         });
         kovarna.vlozNpc(kovar);
@@ -64,10 +76,26 @@ public class HerniPlan {
     }
 
     public void setAktualniProstor(Prostor prostor) {
-       aktualniProstor = prostor;
+        aktualniProstor = prostor;
     }
 
-    public Batoh getBatoh(){
+    public Batoh getBatoh() {
         return batoh;
+    }
+
+    private void zalozKouzla() {
+        Kouzlo swordEnchant = new Kouzlo("sword_enchant", "Tvůj meč je teď silnější");
+        this.kouzla.add(swordEnchant);
+        Kouzlo fireBall = new Kouzlo("fire_ball", "Vyčaroval jsi ohnivou kouli");
+        this.kouzla.add(fireBall);
+    }
+
+    public List<Kouzlo> getKouzla() {
+        return this.kouzla;
+    }
+
+    public void najdesMapu() {
+        vesnice.setVychod(lesniCesta);
+        lesniCesta.setVychod(vesnice);
     }
 }

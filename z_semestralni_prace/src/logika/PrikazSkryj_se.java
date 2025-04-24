@@ -7,7 +7,7 @@ public class PrikazSkryj_se implements IPrikaz {
     @Override
     public String provedPrikaz(String... parametry) {
         odhalen = false;
-        return "Úspěšně ses skryl. Nyní jsi neviditelný pro NPC.";
+        return "\nÚspěšně ses skryl. Nyní jsi neviditelný";
     }
 
     public static boolean jeOdhalen() {

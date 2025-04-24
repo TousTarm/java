@@ -24,7 +24,7 @@ public class Npc {
     }
 
     public String getZprava() {
-        return getJmeno() + ": " + zprava;
+        return ", " + getJmeno() + ": " + zprava;
     }
 
     public String getJmeno() {

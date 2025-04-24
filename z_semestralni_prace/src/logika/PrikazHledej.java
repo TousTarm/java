@@ -19,14 +19,13 @@ public class PrikazHledej implements IPrikaz {
             if (vec.jeSkryta()) {
                 vec.setSkryta(false);
                 naselNeco = true;
-                vysledek.append("Našel jsi: ").append(vec.getNazev());
+                vysledek.append("\nNašel jsi: ").append(vec.getNazev());
 
                 if (vec.jeZbran()) {
                     vysledek.append(" (zbraň)");
                 } else if (!vec.jePrenositelna()) {
                     vysledek.append(" (nepřenositelná)");
                 }
-                vysledek.append("\n");
             }
         }
 

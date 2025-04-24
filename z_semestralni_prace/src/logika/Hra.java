@@ -5,7 +5,8 @@ public class Hra implements IHra {
     private HerniPlan herniPlan;
     private boolean konecHry = false;
     private String epilog = "Dík, že jste si zahráli.";
-
+    private static final String DRAKOUPE = "draci_doupe";
+    private int stepOfEntry = -1;
     public Hra() {
         herniPlan = new HerniPlan();
         platnePrikazy = new SeznamPrikazu();
@@ -17,16 +18,16 @@ public class Hra implements IHra {
         platnePrikazy.vlozPrikaz(new PrikazMluv(herniPlan,this));
         platnePrikazy.vlozPrikaz(new PrikazHledej(herniPlan));
         platnePrikazy.vlozPrikaz(new PrikazSkryj_se());
+        platnePrikazy.vlozPrikaz(new PrikazVycaruj(herniPlan));
     }
 
     public String vratUvitani() {
-        return "Vítejte v epickém dobrodružství o zabití draka!\n" +
-                "Vaším úkolem je porazit hrozivého draka, který terorizuje okolní krajinu.\n" +
-                "Na své cestě navštívíte různé prostory, setkáte se s nebezpečnými nepřáteli i užitečnými spojenci,\n" +
-                "a budete sbírat předměty, které vám mohou pomoci v boji s drakem.\n" +
-                "Napište 'nápověda', pokud potřebujete poradit, jak pokračovat.\n" +
+        return "Vítejte!\n" +
+                "Toto je příběh o skolení zlého draka.\n" +
+                "Napište 'napoveda', pokud si nevíte rady, jak hrát dál.\n" +
                 "\n" +
-                herniPlan.getAktualniProstor().dlouhyPopis();
+                herniPlan.getAktualniProstor().normalniPopis() + herniPlan.getAktualniProstor().dlouhyPopis()
+                + "\n" + herniPlan.getAktualniProstor().popisVychodu();
     }
 
     public String vratEpilog() {
@@ -54,16 +55,21 @@ public class Hra implements IHra {
 
         if (platnePrikazy.jePlatnyPrikaz(slovoPrikazu)) {
             IPrikaz prikaz = platnePrikazy.vratPrikaz(slovoPrikazu);
-            textKVypsani = prikaz.provedPrikaz(parametry);
 
-            // Always append the full room description
-            textKVypsani += "\n" + herniPlan.getAktualniProstor().dlouhyPopis();
-            // Only reveal if the command wasn't "skryj_se"
+            String response = prikaz.provedPrikaz(parametry);
+
+            textKVypsani = herniPlan.getAktualniProstor().normalniPopis();
+
+            textKVypsani += response;
+
+            textKVypsani += "\n" + herniPlan.getAktualniProstor().popisVychodu();
+            /*
             if (!slovoPrikazu.equals(PrikazSkryj_se.getNazevStatic())) {
                 if (PrikazSkryj_se.odhalit()) {
                     textKVypsani += "\nTato akce tě odhalila!";
                 }
             }
+            */
         }
         else {
             textKVypsani = "Nevím co tím myslíš? Tento příkaz neznám.";

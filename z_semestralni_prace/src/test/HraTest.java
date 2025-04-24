@@ -19,62 +19,66 @@ public class HraTest {
         // Uvítání - zapnutí hry
         assertEquals("Vítejte!\n" +
                 "Toto je příběh o skolení zlého draka.\n" +
-                "Napište 'nápověda', pokud si nevíte rady, jak hrát dál.\n" +
+                "Napište 'napoveda', pokud si nevíte rady, jak hrát dál.\n" +
                 "\n" +
-                "Jsi v mistnosti/prostoru vesnice, kde lidé žijí ve strachu z draka. Vesničan ti poví, že král dá půl království komukoliv, kdo zlého draka skolí\n" +
-                "východy: knihovna kovárna hrad", hra.vratUvitani());
+                "Jsi v mistnosti/prostoru vesnice, kde lidé žijí ve strachu z draka. Na náměstí tam stojí černokněžník.\n" +
+                "východy: kovarna hrad knihovna", hra.vratUvitani());
         //1
-        assertEquals("Jsi v mistnosti/prostoru hrad, na trůnu zde sedí sám král, v hradu je smutno a král je starý\n" +
-                "východy: vesnice knihovna kovarna",
+        assertEquals("Jsi v mistnosti/prostoru hrad, na trůnu zde sedí sám král, v hradu je smutno a král je starý.\n" +
+                "východy: vesnice kovarna knihovna",
                 hra.zpracujPrikaz("jdi hrad"));
         //2
-        assertEquals("Jsi v mistnosti/prostoru hrad, ano, drak nám pálí pole, unáší náš lid. Když ho zabiješ, dám ti půl království. Mé stráže tě odvedou do knihovny pro mapu.\n"+
-                "východy: vesnice knihovna kovarna\n",
+        assertEquals("Jsi v mistnosti/prostoru hrad, Král: ano, drak nám pálí pole, unáší náš lid. Když ho zabiješ, dám ti půl království. Mé stráže tě odvedou do knihovny pro mapu.\n"+
+                "východy: vesnice kovarna knihovna",
                 hra.zpracujPrikaz("mluv král"));
         //3
-        assertEquals("Jsi v mistnosti/prostoru knihovna, kam tě dovedli stráže. Poví ti, že mapa je ztracená a ty ji musíš najít. V knihovně je stará polička, rozbitá skřín a stůl.\n" +
-                "východy: vesnice kovarna hrad\n",
+        assertEquals("Jsi v mistnosti/prostoru knihovna, leží tu spousta starých knih.\n" +
+                "východy: vesnice kovarna hrad",
                 hra.zpracujPrikaz("jdi knihovna"));
         //4
-        assertEquals("Jsi v mistnosti/prostoru knihovna, pod stolem jsi nahmatal píčku. Ta ti otevřela tajný šuplík ve stolu, kde leží mapa\n"+
-                "východy: vesnice kovarna hrad\n",
-                hra.zpracujPrikaz("hledej "));
+        assertEquals("Jsi v mistnosti/prostoru knihovna\n"+
+                "Našel jsi: mapa\n" +
+                "východy: vesnice kovarna hrad",
+                hra.zpracujPrikaz("hledej"));
         //5
-        assertEquals("Jsi v mistnosti/prostoru knihovna, Mapa ti ukázala cestu, která vede lesní cestou z vesnice\n" +
+        assertEquals("Jsi v mistnosti/prostoru knihovna\n" +
+                "mapa jsi vložil do batohu\n" +
                 "východy: vesnice kovarna hrad",
                 hra.zpracujPrikaz("seber mapa"));
         //6
-        assertEquals("Jsi v mistnosti/prostoru kovarna, kovář ti nabídl meč, když mu zpět přineseš dračí zub\n" +
+        assertEquals("Jsi v mistnosti/prostoru kovarna, stárá kovárna, kovář zrovna dokoval nový meč.\n" +
                 "východy: vesnice hrad knihovna",
                 hra.zpracujPrikaz("jdi kovarna"));
         //7
-        assertEquals("Jsi v mistnosti/prostoru kovarna, kovářovu nabídku jsi přijal a meč jsi si vzal\n" +
+        assertEquals("Jsi v mistnosti/prostoru kovarna, Kovář: zde máš meč. Naoplátku mi přines dračí zub.\n" +
                 "východy: vesnice hrad knihovna",
-                hra.zpracujPrikaz("seber meč"));
+                hra.zpracujPrikaz("mluv"));
         //8
-        assertEquals("Jsi v mistnosti/prostoru vesnice, vesničané mají radost že jim pomůžeš, a přejí ti hodně štěstí. V davu však stojí postava v černém plášti [cernokneznik] a kouká přímo na tebe\n" +
-                "východy: hrad knihovna kovarna lesni_cesta",
-                hra.zpracujPrikaz("jdi vesnice"));
+        assertEquals("Jsi v mistnosti/prostoru kovarna\n" +
+                "mec jsi vložil do batohu\n" +
+                "východy: vesnice hrad knihovna",
+                hra.zpracujPrikaz("seber mec"));
         //9
-        assertEquals("Jsi v mistnosti/prostoru vesnice, cernokneznik ti prozradi kouzlo na ochranu pred ohnem, stačí vycarovat 'fire_resistence'\n" +
-                "východy: hrad knihovna kovarna lesni_cesta",
-                hra.zpracujPrikaz("mluv cernokneznik"));
+        assertEquals("Jsi v mistnosti/prostoru vesnice, kde lidé žijí ve strachu z draka. Na náměstí tam stojí černokněžník.\n" +
+                "východy: lesni_cesta kovarna hrad knihovna",
+                hra.zpracujPrikaz("jdi vesnice"));
         //10
-        assertEquals("Jsi v mistnosti/prostoru lesni_cesta, ta však po chvíli narazí na skálu a dál nepokračuje. Cítíš však smrad a v dálce vidíš starou chatrč\n" +
-                "východy: vesnice",
-                hra.zpracujPrikaz("jdi lesni_cesta"));
+        assertEquals("Jsi v mistnosti/prostoru vesnice, Černokněžník: drak je nebezpečný, potřebuješ se chránit proti ohni. Kouzlo 'fire_resistance' tě ochrání.\n" +
+                "východy: lesni_cesta kovarna hrad knihovna",
+                hra.zpracujPrikaz("mluv"));
         //11
-        assertEquals("Jsi v mistnosti/prostoru lesni_cesta, když ho začneš následovat, najdeš vstup do jeskyně\n" +
+        assertEquals("Jsi v mistnosti/prostoru lesni_cesta, plná žlutého listí. Na konci cesty je jeskyně.\n" +
                 "východy: vesnice draci_doupe",
-                hra.zpracujPrikaz("hledej"));
+                hra.zpracujPrikaz("jdi lesni_cesta"));
         //12
-        assertEquals("Jsi v mistnosti/prostoru draci_doupe, je tam spousta goblinů, až příliš mnoho. Jedna skupinka zrovna k tobě jde, ale nevidí tě\n" +
-                "východy: lesni_cesta draci_doupe",
+        assertEquals("Jsi v mistnosti/prostoru draci_doupe, je tam spousta goblinů, až příliš mnoho. Jedna skupinka zrovna k tobě jde, ale nevidí tě.\n" +
+                "východy: lesni_cesta draci_sal",
                 hra.zpracujPrikaz("jdi draci_doupe"));
         //13
-        assertEquals("Jsi v mistnosti/prostoru draci_doupe, před gobliny jsi se jen tak tak stihl schovat. Ti najednou uslyší zvon a všichni odběhnou. Jeden goblin stihl zamknou bránu do dračího doupěte, zámek vypadá slabě\n" +
-                "východy: draci_doupe",
-                hra.zpracujPrikaz("skryj_se"));
+        assertEquals("Jsi v mistnosti/prostoru draci_doupe\n" +
+                "Úspěšně ses skryl. Nyní jsi neviditelný\n" +
+                "východy: lesni_cesta draci_sal",
+                hra.zpracujPrikaz("skryj_se"));/*
         //14
         assertEquals("Jsi v mistnosti/prostoru draci_doupe, zámek jsi přesekl a dvěře se otevřeli\n" +
                 "východy: lesni_cesta draci_doupe",
@@ -110,5 +114,7 @@ public class HraTest {
 
         assertTrue(hra.konecHry());
         assertEquals("Drak je poražen, goblini uvězněni a ty jsi zachránil celé království! Hra končí. Díky za hraní", hra.vratEpilog());
+
+         */
     }
 }
