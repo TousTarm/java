@@ -5,8 +5,6 @@ public class Hra implements IHra {
     private HerniPlan herniPlan;
     private boolean konecHry = false;
     private String epilog = "Dík, že jste si zahráli.";
-    private static final String DRAKOUPE = "draci_doupe";
-    private int stepOfEntry = -1;
     public Hra() {
         herniPlan = new HerniPlan();
         platnePrikazy = new SeznamPrikazu();
@@ -17,9 +15,22 @@ public class Hra implements IHra {
 
         platnePrikazy.vlozPrikaz(new PrikazMluv(herniPlan,this));
         platnePrikazy.vlozPrikaz(new PrikazHledej(herniPlan));
-        platnePrikazy.vlozPrikaz(new PrikazSkryj_se());
-        platnePrikazy.vlozPrikaz(new PrikazVycaruj(herniPlan));
+        platnePrikazy.vlozPrikaz(new PrikazSkryj_se(herniPlan));
+        platnePrikazy.vlozPrikaz(new PrikazVycaruj(herniPlan,this));
+        platnePrikazy.vlozPrikaz(new PrikazUtok(herniPlan,this));
     }
+    private boolean dragonAlive = true;
+    private boolean swordEnchanted = false;
+    private boolean fireResistanceActive = false;
+
+    public boolean isDragonAlive() { return dragonAlive; }
+    public boolean isSwordEnchanted() { return swordEnchanted; }
+    public boolean hasFireResistance() { return fireResistanceActive; }
+
+    public void setDragonAlive(boolean state) { dragonAlive = state; }
+    public void setSwordEnchanted(boolean state) { swordEnchanted = state; }
+    public void setFireResistanceActive(boolean state) {this.fireResistanceActive = state;}
+
 
     public String vratUvitani() {
         return "Vítejte!\n" +
@@ -63,13 +74,10 @@ public class Hra implements IHra {
             textKVypsani += response;
 
             textKVypsani += "\n" + herniPlan.getAktualniProstor().popisVychodu();
-            /*
-            if (!slovoPrikazu.equals(PrikazSkryj_se.getNazevStatic())) {
-                if (PrikazSkryj_se.odhalit()) {
-                    textKVypsani += "\nTato akce tě odhalila!";
-                }
+
+            if (slovoPrikazu.equals("utok")) {
+                textKVypsani = response;
             }
-            */
         }
         else {
             textKVypsani = "Nevím co tím myslíš? Tento příkaz neznám.";
@@ -85,5 +93,6 @@ public class Hra implements IHra {
      public HerniPlan getHerniPlan(){
         return herniPlan;
      }
+
 }
 

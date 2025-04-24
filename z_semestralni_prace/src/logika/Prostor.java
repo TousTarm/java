@@ -44,7 +44,7 @@ public class Prostor {
     }
 
     public String getNazev() {
-        return nazev;       
+        return nazev;
     }
 
     public String normalniPopis(){
@@ -64,7 +64,7 @@ public class Prostor {
     }
 
     public Prostor vratSousedniProstor(String nazevSouseda) {
-        List<Prostor>hledaneProstory = 
+        List<Prostor>hledaneProstory =
             vychody.stream().filter(sousedni -> sousedni.getNazev().equals(nazevSouseda)).collect(Collectors.toList());
         if(hledaneProstory.isEmpty()){
             return null;
@@ -137,5 +137,35 @@ public class Prostor {
 
     public Npc getNpc() {
         return npc;
+    }
+
+    private boolean goblinEventActive = false;
+    private boolean goblinEventResolved = false;
+
+    public void triggerGoblinEvent() {
+        if (!goblinEventResolved && this.nazev.equals("draci_doupe")) {
+            goblinEventActive = true;
+        }
+    }
+
+    public boolean resolveGoblinEvent() {
+        if (goblinEventActive) {
+            goblinEventActive = false;
+            goblinEventResolved = true;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isGoblinEventActive() {
+        return goblinEventActive;
+    }
+
+    public void setPopis(String novyPopis) {
+        this.popis = novyPopis;
+    }
+
+    public boolean odeberVychod(String nazevProstoru) {
+        return vychody.removeIf(prostor -> prostor.getNazev().equals(nazevProstoru));
     }
 }

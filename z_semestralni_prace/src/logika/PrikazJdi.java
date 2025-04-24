@@ -17,16 +17,27 @@ public class PrikazJdi implements IPrikaz {
         }
 
         String smer = parametry[0];
-
         Prostor sousedniProstor = plan.getAktualniProstor().vratSousedniProstor(smer);
 
         if (sousedniProstor == null) {
             return "Tam se odsud jít nedá!";
         }
-        else {
-            plan.setAktualniProstor(sousedniProstor);
-            return "" + plan.getAktualniProstor().dlouhyPopis();
+
+        // Store current room for event check
+        Prostor currentRoom = plan.getAktualniProstor();
+        plan.setAktualniProstor(sousedniProstor);
+
+        // Check if entering draci_doupe
+        if (sousedniProstor.getNazev().equals("draci_doupe")) {
+            sousedniProstor.triggerGoblinEvent();
+
+            StringBuilder sb = new StringBuilder();
+            sb.append(sousedniProstor.dlouhyPopis());
+            return sb.toString();
         }
+
+        // Standard room entry
+        return sousedniProstor.dlouhyPopis();
     }
 
     @Override

@@ -16,7 +16,7 @@ public class Kouzlo {
     }
 
     public String getEfekt() {
-        return efekt;
+        return ", vyčaroval jsi kouzlo: " + nazev +  ", " + efekt;
     }
 
     public boolean isAktivni() {

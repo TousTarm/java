@@ -11,6 +11,8 @@ public class HerniPlan {
 
     private Prostor vesnice;
     private Prostor lesniCesta;
+    private Prostor draciDoupe;
+    private Prostor draciSal;
 
     public HerniPlan() {
         zalozProstoryHry();
@@ -25,8 +27,8 @@ public class HerniPlan {
         Prostor knihovna = new Prostor("knihovna", ", leží tu spousta starých knih.");
         Prostor kovarna = new Prostor("kovarna", ", stárá kovárna, kovář zrovna dokoval nový meč.");
         lesniCesta = new Prostor("lesni_cesta", ", plná žlutého listí. Na konci cesty je jeskyně.");
-        Prostor draciDoupe = new Prostor("draci_doupe", ", je tam spousta goblinů, až příliš mnoho. Jedna skupinka zrovna k tobě jde, ale nevidí tě.");
-        Prostor draciSal = new Prostor("draci_sal", ", je plný zlata a uprostřed leží drak");
+        draciDoupe = new Prostor("draci_doupe", ", je tam spousta goblinů, až příliš mnoho. Jedna skupinka zrovna k tobě jde, ale nevidí tě.");
+        draciSal = new Prostor("draci_sal", ", drak s obrovskými mocnými křídly a tlustou šupinatou kůží si te všimne a začne se smát. drak: 'Ty mně nikdy neporazíš', začne se zhluboka nadechovat.");
 
         vesnice.setVychod(hrad);
         vesnice.setVychod(knihovna);
@@ -45,9 +47,7 @@ public class HerniPlan {
         knihovna.setVychod(hrad);
 
         draciDoupe.setVychod(lesniCesta);
-        draciDoupe.setVychod(draciSal);
 
-        draciSal.setVychod(draciDoupe);
         lesniCesta.setVychod(draciDoupe);
 
         aktualniProstor = vesnice;
@@ -59,7 +59,7 @@ public class HerniPlan {
         hrad.vlozNpc(kral);
 
         Npc cernokneznik = new Npc("Černokněžník", "drak je nebezpečný, potřebuješ se chránit proti ohni. Kouzlo 'fire_resistance' tě ochrání.", "vesnice", hra -> {
-            Kouzlo fireBall = new Kouzlo("fire_resistence", "Jsi teď imuní vůči ohni!");
+            Kouzlo fireBall = new Kouzlo("fire_resistence", "jsi teď imuní vůči ohni!");
             this.kouzla.add(fireBall);
         });
         vesnice.vlozNpc(cernokneznik);
@@ -84,9 +84,9 @@ public class HerniPlan {
     }
 
     private void zalozKouzla() {
-        Kouzlo swordEnchant = new Kouzlo("sword_enchant", "Tvůj meč je teď silnější");
+        Kouzlo swordEnchant = new Kouzlo("sword_enchant", "tvůj meč je teď silnější.");
         this.kouzla.add(swordEnchant);
-        Kouzlo fireBall = new Kouzlo("fire_ball", "Vyčaroval jsi ohnivou kouli");
+        Kouzlo fireBall = new Kouzlo("fire_ball", "objevila se před tebou ohnivá koule");
         this.kouzla.add(fireBall);
     }
 
@@ -97,5 +97,22 @@ public class HerniPlan {
     public void najdesMapu() {
         vesnice.setVychod(lesniCesta);
         lesniCesta.setVychod(vesnice);
+    }
+
+    public void openDragonsDoor() {
+        draciDoupe.setVychod(draciSal);
+        draciSal.setVychod(draciDoupe);
+    }
+
+    public Prostor getDraciDoupe() {
+        return draciDoupe;
+    }
+
+    public Prostor getLesniCesta() {
+        return lesniCesta;
+    }
+    public void zablokujVchod() {
+        lesniCesta.odeberVychod("draci_doupe");
+        lesniCesta.setPopis(", plná žlutého listí. Vchod do jeskyně je nyní zasypán ohromnými kameny.");
     }
 }

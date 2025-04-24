@@ -21,7 +21,6 @@ public class Batoh {
         return vypis.trim(); // trim() odstraní přebytečné mezery na konci
     }
 
-
     public boolean obsahujeVec(String nazevVeci){
         for(Vec vec : seznamVeci){
            if (vec.getNazev().equals(nazevVeci)){

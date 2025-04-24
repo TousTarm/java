@@ -72,49 +72,47 @@ public class HraTest {
                 hra.zpracujPrikaz("jdi lesni_cesta"));
         //12
         assertEquals("Jsi v mistnosti/prostoru draci_doupe, je tam spousta goblinů, až příliš mnoho. Jedna skupinka zrovna k tobě jde, ale nevidí tě.\n" +
-                "východy: lesni_cesta draci_sal",
+                "východy: lesni_cesta",
                 hra.zpracujPrikaz("jdi draci_doupe"));
         //13
         assertEquals("Jsi v mistnosti/prostoru draci_doupe\n" +
-                "Úspěšně ses skryl. Nyní jsi neviditelný\n" +
-                "východy: lesni_cesta draci_sal",
-                hra.zpracujPrikaz("skryj_se"));/*
+                "Schoval ses! Goblinové tě přehlédli a odcházejí pryč. Jeden z nich však stihl zamknout dveře k drakovi, možná půjde zámek zničit.\n" +
+                "východy: lesni_cesta",
+                hra.zpracujPrikaz("skryj_se"));
         //14
-        assertEquals("Jsi v mistnosti/prostoru draci_doupe, zámek jsi přesekl a dvěře se otevřeli\n" +
-                "východy: lesni_cesta draci_doupe",
-                hra.zpracujPrikaz("utok mec"));
+        assertEquals("Rychlým švihem jsi zámek přesek vejpůl a dveře se rozletěly.",
+                hra.zpracujPrikaz("utok zamek"));
         //15
-        assertEquals("Jsi v mistnosti/prostoru draci_sal, drak s obrovskými mocnými křídly a tlustou šupinatou kůží si te všimne a začne se smát. drak: 'Ty mně nikdy neporazíš', začne se zhluboka nadechovat\n" +
+        assertEquals("Jsi v mistnosti/prostoru draci_sal, drak s obrovskými mocnými křídly a tlustou šupinatou kůží si te všimne a začne se smát. drak: 'Ty mně nikdy neporazíš', začne se zhluboka nadechovat.\n" +
                 "východy: draci_doupe",
                 hra.zpracujPrikaz("jdi draci_sal"));
         //16
-        assertEquals("Jsi v mistnosti/prostoru draci_sal, vyčaroval si kouzlo 'fire_resistence'. Celé tvé tělo problesklo a hned na to na tebe drak vychrlil jeho ohňivý dech, překvapený, že jsi to přežil\n" +
+        assertEquals("Jsi v mistnosti/prostoru draci_sal, vyčaroval jsi kouzlo: fire_resistence, jsi teď imuní vůči ohni!\n" +
+                "Celé tvé tělo problesklo a hned na to na tebe drak vychrlil jeho ohňivý dech, překvapený, že jsi to přežil.\n" +
                 "východy: draci_doupe",
                 hra.zpracujPrikaz("vycaruj fire_resistence"));
         //17
-        assertEquals("Jsi v mistnosti/prostoru draci_sal, tvůj meč se rozzářil světle modrou barvou, drak se polekal a začíná tě prosit o smilování\n" +
+        assertEquals("Jsi v mistnosti/prostoru draci_sal, vyčaroval jsi kouzlo: sword_enchant, tvůj meč je teď silnější.\n" +
+                "Drak se polekal a začíná tě prosit o smilování.\n" +
                 "východy: draci_doupe",
                 hra.zpracujPrikaz("vycaruj sword_enchant"));
         //18
-        assertEquals("Jsi v mistnosti/prostoru draci_sal, drakova hlava dopadá na zem po jednom hbytém zásahu. Celá místnost se začala třást, jeskyň se může zřítit\n" +
-                "východy: draci_doupe",
-                hra.zpracujPrikaz("utok mec"));
+        assertEquals("Drakova hlava dopadá na zem po jednom hbitém zásahu. Celá místnost se začala třást, jeskyně se může zřítit.",
+                hra.zpracujPrikaz("utok drak"));
         //19
-        assertEquals("Jsi v mistnosti/prostoru draci_doupe, jen o vlásek jsi utekl z dračího sálu, který se celý zřítil a draka zaživa pohřbil. Goblini se vrací zpět zjistit co se stalo\n" +
-                "východy: lesni_cesta",
+        assertEquals("Jsi v mistnosti/prostoru draci_doupe, jen o vlásek jsi utekl z dračího sálu, který se celý zřítil a draka zaživa pohřbil. Goblini se vrací zpět zjistit co se stalo.\n" +
+                "východy: lesni_cesta draci_sal",
                 hra.zpracujPrikaz("jdi draci_doupe"));
         //20
-        assertEquals("Jsi v mistnosti/prostoru lesni_cesta, goblini si všimli tvého útoku a běží směrem k tobě, je jich ale příliš mnoho\n" +
+        assertEquals("Jsi v mistnosti/prostoru lesni_cesta, goblini si všimli tvého útoku a běží směrem k tobě, je jich ale příliš mnoho.\n" +
                 "východy: vesnice draci_doupe",
                 hra.zpracujPrikaz("jdi lesni_cesta"));
         //21
-        assertEquals("Jsi v mistnosti/prostoru draci_doupe, ohnivá koule zasáhla strop doupěte a ten zasypal vstup i s gobliny, království je tak zachráněno!!!\n" +
-                        "východy: vesnice draci_doupe",
-                hra.zpracujPrikaz("vycaruj ohvniva_koule"));
+        assertEquals("Jsi v mistnosti/prostoru lesni_cesta, vyčaroval jsi kouzlo: fire_ball, objevila se před tebou ohnivá koule, zasáhla strop doupěte a ten zasypal vstup i s gobliny. Království je tak zachráněno!\n" +
+                        "východy: vesnice",
+                hra.zpracujPrikaz("vycaruj fire_ball"));
 
         assertTrue(hra.konecHry());
         assertEquals("Drak je poražen, goblini uvězněni a ty jsi zachránil celé království! Hra končí. Díky za hraní", hra.vratEpilog());
-
-         */
     }
 }
