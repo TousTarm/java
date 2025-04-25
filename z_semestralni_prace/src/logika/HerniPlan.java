@@ -16,6 +16,7 @@ public class HerniPlan {
 
     public HerniPlan() {
         zalozProstoryHry();
+        zalozVeci();
         this.batoh = new Batoh(4);
         this.kouzla = new ArrayList<>();
         zalozKouzla();
@@ -26,7 +27,7 @@ public class HerniPlan {
         Prostor hrad = new Prostor("hrad", ", na trůnu zde sedí sám král, v hradu je smutno a král je starý.");
         Prostor knihovna = new Prostor("knihovna", ", leží tu spousta starých knih.");
         Prostor kovarna = new Prostor("kovarna", ", stárá kovárna, kovář zrovna dokoval nový meč.");
-        lesniCesta = new Prostor("lesni_cesta", ", plná žlutého listí. Na konci cesty je jeskyně.");
+        lesniCesta = new Prostor("lesni_cesta", ", plná žlutého listí. Leží tam kámen a stojí monolith. Na konci cesty je jeskyně.");
         draciDoupe = new Prostor("draci_doupe", ", je tam spousta goblinů, až příliš mnoho. Jedna skupinka zrovna k tobě jde, ale nevidí tě.");
         draciSal = new Prostor("draci_sal", ", drak s obrovskými mocnými křídly a tlustou šupinatou kůží si te všimne a začne se smát. drak: 'Ty mně nikdy neporazíš', začne se zhluboka nadechovat.");
 
@@ -69,6 +70,13 @@ public class HerniPlan {
             hra.getHerniPlan().getAktualniProstor().vlozVec(mec);
         });
         kovarna.vlozNpc(kovar);
+    }
+
+    public void zalozVeci(){
+        Vec monolith = new Vec("monolith", false, false, false);
+        lesniCesta.vlozVec(monolith);
+        Vec kamen = new Vec("kamen", true, false, false);
+        lesniCesta.vlozVec(kamen);
     }
 
     public Prostor getAktualniProstor() {

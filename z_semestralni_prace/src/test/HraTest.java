@@ -15,7 +15,7 @@ public class HraTest {
     }
 
     @Test
-    public void testSlayingDragonScenario() {
+    public void optimalPlaytroughTest() {
         // Uvítání - zapnutí hry
         assertEquals("Vítejte!\n" +
                 "Toto je příběh o skolení zlého draka.\n" +
@@ -67,7 +67,7 @@ public class HraTest {
                 "východy: lesni_cesta kovarna hrad knihovna",
                 hra.zpracujPrikaz("mluv"));
         //11
-        assertEquals("Jsi v mistnosti/prostoru lesni_cesta, plná žlutého listí. Na konci cesty je jeskyně.\n" +
+        assertEquals("Jsi v mistnosti/prostoru lesni_cesta, plná žlutého listí. Leží tam kámen a stojí monolith. Na konci cesty je jeskyně.\n" +
                 "východy: vesnice draci_doupe",
                 hra.zpracujPrikaz("jdi lesni_cesta"));
         //12
@@ -115,4 +115,65 @@ public class HraTest {
         assertTrue(hra.konecHry());
         assertEquals("Drak je poražen, goblini uvězněni a ty jsi zachránil celé království! Hra končí. Díky za hraní", hra.vratEpilog());
     }
+
+    @Test
+    public void edgeCaseMluv(){
+        // Uvítání - zapnutí hry
+        assertEquals("Vítejte!\n" +
+                "Toto je příběh o skolení zlého draka.\n" +
+                "Napište 'napoveda', pokud si nevíte rady, jak hrát dál.\n" +
+                "\n" +
+                "Jsi v mistnosti/prostoru vesnice, kde lidé žijí ve strachu z draka. Na náměstí tam stojí černokněžník.\n" +
+                "východy: kovarna hrad knihovna", hra.vratUvitani());
+
+        assertEquals("Jsi v mistnosti/prostoru knihovna, leží tu spousta starých knih.\n" +
+                        "východy: vesnice kovarna hrad",
+                hra.zpracujPrikaz("jdi knihovna"));
+
+        assertEquals("Jsi v mistnosti/prostoru knihovna, v místnosti nikdo není, proč mluvíš sám se sebou?\n" +
+                        "východy: vesnice kovarna hrad",
+                hra.zpracujPrikaz("mluv knihovna"));
+    }
+
+    @Test
+    public void edgeCaseUtok(){
+        // Uvítání - zapnutí hry
+        assertEquals("Vítejte!\n" +
+                "Toto je příběh o skolení zlého draka.\n" +
+                "Napište 'napoveda', pokud si nevíte rady, jak hrát dál.\n" +
+                "\n" +
+                "Jsi v mistnosti/prostoru vesnice, kde lidé žijí ve strachu z draka. Na náměstí tam stojí černokněžník.\n" +
+                "východy: kovarna hrad knihovna", hra.vratUvitani());
+
+        assertEquals("Nemůžeš útočit bez meče!",
+                hra.zpracujPrikaz("utok"));
+    }
+
+    @Test
+    public void edgeCaseUtok2(){
+        assertEquals("Vítejte!\n" +
+                "Toto je příběh o skolení zlého draka.\n" +
+                "Napište 'napoveda', pokud si nevíte rady, jak hrát dál.\n" +
+                "\n" +
+                "Jsi v mistnosti/prostoru vesnice, kde lidé žijí ve strachu z draka. Na náměstí tam stojí černokněžník.\n" +
+                "východy: kovarna hrad knihovna", hra.vratUvitani());
+
+        assertEquals("Jsi v mistnosti/prostoru kovarna, stárá kovárna, kovář zrovna dokoval nový meč.\n" +
+                        "východy: vesnice hrad knihovna",
+                hra.zpracujPrikaz("jdi kovarna"));
+
+        assertEquals("Jsi v mistnosti/prostoru kovarna, Kovář: zde máš meč. Naoplátku mi přines dračí zub.\n" +
+                        "východy: vesnice hrad knihovna",
+                hra.zpracujPrikaz("mluv"));
+
+        assertEquals("Jsi v mistnosti/prostoru kovarna\n" +
+                        "mec jsi vložil do batohu\n" +
+                        "východy: vesnice hrad knihovna",
+                hra.zpracujPrikaz("seber mec"));
+
+        assertEquals("Zde není na koho útočit.",
+                hra.zpracujPrikaz("utok"));
+    }
+
+
 }

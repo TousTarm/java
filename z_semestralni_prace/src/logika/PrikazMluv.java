@@ -16,7 +16,7 @@ public class PrikazMluv implements IPrikaz {
         Npc npc = aktualniProstor.getNpc();
 
         if (npc == null) {
-            return "V místnosti nikdo není, proč mluvíš sám se sebou?";
+            return ", v místnosti nikdo není, proč mluvíš sám se sebou?";
         }
 
         // Execute NPC action if it exists
