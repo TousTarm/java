@@ -1,76 +1,50 @@
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * Sem napiste popis teto tridy.
- *
- * @author     Luboš Pavlíček
- * @version    1.0, srpen 2004
- */
 public class Osoba {
+    private String jmeno;
+    private String titulPred;
+    private String titulZa;
+    private Map<Utvar, Role> roles = new HashMap<>();
 
-    private String jmeno;        // jméno osoby
-    private String titulPred;    // titul před jménem
-    private String titulZa;      // titul za jménem
-    
-    /**
-     * Konstruktor pro objekty tridy Osoba.
-     * 
-     * @param jmeno     jméno osoby
-     * @param titulPred titul před jménem
-     * @param titulZa   titul za jménem
-     */
     public Osoba(String jmeno, String titulPred, String titulZa) {
         this.jmeno = jmeno;
         this.titulPred = titulPred;
         this.titulZa = titulZa;
     }
-    
-    
-    /**
-     * Metoda vrací jméno osoby
-     *
-     * @return     vrací jméno osoby
-     */
-    public String getJmeno() { 
+
+    public String getJmeno() {
         return jmeno;
     }
-    
-    /**
-     * Metoda vrací titul před jménem
-     * 
-     * @return    vrací titul před jménem
-     */
+
     public String getTitulPred() {
         return titulPred;
     }
-    
-    /**
-     * Metoda vrací titul za jménem.
-     * 
-     * @return vrací titul za jménem
-     */
+
     public String getTitulZa() {
         return titulZa;
     }
-    
-    /**
-     * Metoda překrývá metodu toString() třídy Object a vypisuje základní informace o instanci.
-     * 
-     * @return   základní informace o instanci
-     */
-    public String toString() {
-        return titulPred+" "+jmeno+" "+titulZa;
+
+    public void addRole(Utvar utvar, Role role) {
+        roles.put(utvar, role);
     }
-    
-    /**
-     * metoda equals pro porovnání s další instancí třídy Osoba (obecně s jakýmkoliv
-     * objektem). Podrobný popis této metody je u třídy Object.
-     * Dvě instance třídy Osoba jsou stejné, pokud obsahují
-     * stejné jméno (tj. nezáleží na titulech). 
-     *
-     * @param o   druhá osoba/Object, se kterým se má aktuální instance porovnat
-     * @return    true, pokud jsou instance stejné - pokud obsahují stejné jméno (tituly se 
-     *                neporovnávají).
-     */
+
+    public Role getRole(Utvar utvar) {
+        return roles.get(utvar);
+    }
+
+    @Override
+    public String toString() {
+        return titulPred + " " + jmeno + " " + titulZa;
+    }
+
+    public String toStringWithRole(Utvar utvar) {
+        Role role = getRole(utvar);
+        String roleStr = (role != null) ? " (" + role + ")" : "";
+        return toString() + roleStr;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o instanceof Osoba) {
             Osoba druha = (Osoba)o;
@@ -80,15 +54,9 @@ public class Osoba {
             return false;
         }
     }
-    
-    /**
-     * Metoda vrací číselnou hodnotu vyjadřující konkrétní instanci. Používá se pro optimalizaci
-     * v dynamických datových strukturách. Bližší popis viz třída Object.
-     * 
-     * @return číselný kód vyjadřující instanci
-     */
+
+    @Override
     public int hashCode() {
         return jmeno.hashCode();
     }
-    
 }

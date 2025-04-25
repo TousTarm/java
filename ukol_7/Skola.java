@@ -1,20 +1,10 @@
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Tato třída je součástí projektu Skola a obsahuje základní třídu pro školu. V konstruktoru je i inicializace
- * organizační struktury školy.
- *
- * @author     Luboš Pavlíček
- * @version    1.0, srpen 2004
- */
 public class Skola {
-
     private Utvar skola;
-    
-    /**
-     * Konstruktor pro objekty tridy Skola
-     */
+
     public Skola() {
-        //Inicializujte atributy instance
         skola = new Utvar("VŠE","Vysoká škola ekonomická");
         Utvar fak1 = new Utvar("F1","Fakulta financí a účetnictví");
         Utvar fak2 = new Utvar("F2","Fakulta mezinárodních vztahů");
@@ -22,12 +12,15 @@ public class Skola {
         Utvar fak4 = new Utvar("F4","Fakulta informatiky a statistiky");
         Utvar fak5 = new Utvar("F5","Fakulta národohospodářská");
         Utvar fak6 = new Utvar("F6","Fakulta managementu");
+
         skola.pridej(fak1);
         skola.pridej(fak2);
         skola.pridej(fak3);
         skola.pridej(fak4);
         skola.pridej(fak5);
         skola.pridej(fak6);
+
+        // Add departments to F4
         fak4.pridej(new Utvar("KMAT","katedra matematiky"));
         Utvar kstp = new Utvar("KSTP","katedra statistiky");
         fak4.pridej(new Utvar("KEST","katedra ekonomické statistiky"));
@@ -39,40 +32,117 @@ public class Skola {
         Utvar kit = new Utvar("KIT","katedra informačních technologii");
         fak4.pridej(kit);
         fak4.pridej(kstp);
-        skola.pridej(new Osoba("Durčáková Jaroslava", "Doc. Ing.", "CSc."));
-        Osoba dekan = new Osoba ("Hindls Richard", "Prof. Ing.", "CSc.");
+
+        // Add people with roles
+        Osoba rektor = new Osoba("Novák Jan", "Prof. Ing.", "DrSc.");
+        skola.pridej(rektor);
+        rektor.addRole(skola, Role.REKTOR);
+
+        Osoba dekan = new Osoba("Hindls Richard", "Prof. Ing.", "CSc.");
         fak4.pridej(dekan);
+        dekan.addRole(fak4, Role.DEAN);
         kstp.pridej(dekan);
-        kit.pridej(new Osoba("Voříšek Jiří","Prof. Ing.", "CSc."));
-        kit.pridej(new Osoba("Buchalcevová Alena", "Ing.","PhD."));
-        kit.pridej(new Osoba("Pavlíčková Jarmila", "Ing.",""));
+        dekan.addRole(kstp, Role.DEPARTMENT_HEAD);
+
+        Osoba kitHead = new Osoba("Voříšek Jiří", "Prof. Ing.", "CSc.");
+        kit.pridej(kitHead);
+        kitHead.addRole(kit, Role.DEPARTMENT_HEAD);
+
+        Osoba deputyHead = new Osoba("Buchalcevová Alena", "Ing.", "PhD.");
+        kit.pridej(deputyHead);
+        deputyHead.addRole(kit, Role.DEPUTY_HEAD);
+
+        kit.pridej(new Osoba("Pavlíčková Jarmila", "Ing.", ""));
         kit.pridej(new Osoba("Pavlíček Luboš","Ing.",""));
-        kit.pridej(new Osoba("Šimůnek Milan", "Ing.","PhD."));
-        kit.pridej(new Osoba("Tichý Vladimír", "RNDr.",""));
+
+        Osoba professor = new Osoba("Šimůnek Milan", "Ing.", "PhD.");
+        kit.pridej(professor);
+        professor.addRole(kit, Role.PROFESSOR);
+
+        Osoba student = new Osoba("Tichý Vladimír", "RNDr.", "");
+        kit.pridej(student);
+        student.addRole(kit, Role.DOCTORAL_STUDENT);
     }
-    
-    /**
-     * Metoda vypíše organizační strukturu
-     *
-     * @param vcetneOsob zda vypsat i osoby přiřazené do jednotlivých útvarů
-     */
+
     public void vypis(boolean vcetneOsob) {
         skola.vypis(vcetneOsob);
     }
 
-    /**
-     * Metoda vypíše organizační strukturu
-     *
-     * @param vcetneOsob zda vypsat i osoby přiřazené do jednotlivých útvarů
-     * @param uroven
-     */
     public void vypis(boolean vcetneOsob, int uroven) {
         skola.vypis(vcetneOsob, uroven);
     }
 
-    public void vypis2(boolean vcetneOsob,int uroven) {
+    public void vypis2(boolean vcetneOsob, int uroven) {
         skola.vypis2(vcetneOsob, uroven);
     }
 
+    public void najdiUtvar(String zkratka) {
+        Utvar found = findUtvarRecursive(skola, zkratka);
+        if (found != null) {
+            printHierarchy(found);
+        } else {
+            System.out.println("Department not found: " + zkratka);
+        }
+    }
 
+    private Utvar findUtvarRecursive(Utvar current, String zkratka) {
+        if (current.getZkratka().equalsIgnoreCase(zkratka)) {
+            return current;
+        }
+        for (Utvar podrizeny : current.getPodrizene()) {
+            Utvar found = findUtvarRecursive(podrizeny, zkratka);
+            if (found != null) return found;
+        }
+        return null;
+    }
+
+    private void printHierarchy(Utvar utvar) {
+        if (utvar == skola) {
+            System.out.println(utvar.getZkratka() + " - " + utvar.getNazev());
+            return;
+        }
+        printHierarchy(findParent(skola, utvar));
+        System.out.println(utvar.getZkratka() + " - " + utvar.getNazev());
+    }
+
+    private Utvar findParent(Utvar current, Utvar child) {
+        if (current.getPodrizene().contains(child)) {
+            return current;
+        }
+        for (Utvar podrizeny : current.getPodrizene()) {
+            Utvar parent = findParent(podrizeny, child);
+            if (parent != null) return parent;
+        }
+        return null;
+    }
+
+    public void najdiOsobu(String jmeno) {
+        List<Utvar> departments = findPersonDepartments(skola, jmeno);
+        if (!departments.isEmpty()) {
+            System.out.println("Person found in departments:");
+            for (Utvar utvar : departments) {
+                System.out.println(utvar.getZkratka() + " - " + utvar.getNazev());
+                utvar.getOsoby().stream()
+                        .filter(o -> o.getJmeno().equalsIgnoreCase(jmeno))
+                        .findFirst()
+                        .ifPresent(o -> {
+                            Role role = o.getRole(utvar);
+                            System.out.println("   Role: " + (role != null ? role : "Member"));
+                        });
+            }
+        } else {
+            System.out.println("Person not found: " + jmeno);
+        }
+    }
+
+    private List<Utvar> findPersonDepartments(Utvar current, String jmeno) {
+        List<Utvar> result = new ArrayList<>();
+        if (current.getOsoby().stream().anyMatch(o -> o.getJmeno().equalsIgnoreCase(jmeno))) {
+            result.add(current);
+        }
+        for (Utvar podrizeny : current.getPodrizene()) {
+            result.addAll(findPersonDepartments(podrizeny, jmeno));
+        }
+        return result;
+    }
 }
