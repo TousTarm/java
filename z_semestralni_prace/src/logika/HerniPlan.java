@@ -17,7 +17,7 @@ public class HerniPlan {
     public HerniPlan() {
         zalozProstoryHry();
         zalozVeci();
-        this.batoh = new Batoh(4);
+        this.batoh = new Batoh(2);
         this.kouzla = new ArrayList<>();
         zalozKouzla();
     }

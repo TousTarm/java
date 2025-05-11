@@ -12,11 +12,11 @@ public class PrikazSeber implements IPrikaz {
     @Override
     public String provedPrikaz(String... parametry) {
         if (parametry.length == 0) {
-            return "Co mám sebrat? Musíš zadat jméno věci";
+            return "\nCo mám sebrat? Musíš zadat jméno věci";
         }
 
         if (parametry.length > 1) {
-            return "Každá věc je jednoslovná a ty jsi toho zadal moc";
+            return "\nKaždá věc je jednoslovná a ty jsi toho zadal moc";
         }
 
         String nazevVeci = parametry[0];
@@ -25,7 +25,7 @@ public class PrikazSeber implements IPrikaz {
         if (aktualniProstor.obsahujeVec(nazevVeci)) {
             Vec pozadovanaVec = aktualniProstor.vyberVec(nazevVeci);
             if (pozadovanaVec == null) {
-                return nazevVeci + " nedá se přenést";
+                return "\n" + nazevVeci + " nedá se přenést";
             } else {
                 boolean povedloSeVlozit = herniPlan.getBatoh().vlozitDoBatohu(pozadovanaVec);
                 if (povedloSeVlozit) {
@@ -35,11 +35,11 @@ public class PrikazSeber implements IPrikaz {
                     }
                     return "\n" + nazevVeci + " jsi vložil do batohu";
                 } else {
-                    return nazevVeci + " se nepodařilo vložit do batohu. Je již plný";
+                    return "\n" + nazevVeci + " se nepodařilo vložit do batohu. Je již plný";
                 }
             }
         } else {
-            return nazevVeci + " není v prostoru";
+            return "\n" + nazevVeci + " není v prostoru";
         }
     }
 

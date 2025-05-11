@@ -13,7 +13,7 @@ public class PrikazVycaruj implements IPrikaz {
     @Override
     public String provedPrikaz(String... parametry) {
         if (parametry.length == 0) {
-            return "Musíš zadat kouzlo. Dostupná kouzla: " + getDostupnaKouzla();
+            return "\nMusíš zadat kouzlo. Dostupná kouzla: " + getDostupnaKouzla();
         }
 
         String jmenoKouzla = parametry[0].toLowerCase();
@@ -21,12 +21,12 @@ public class PrikazVycaruj implements IPrikaz {
         Kouzlo kouzlo = najdiKouzlo(jmenoKouzla);
 
         if (kouzlo == null) {
-            return "Neznámé kouzlo: " + jmenoKouzla;
+            return "\nNeznámé kouzlo: " + jmenoKouzla;
         }
 
         // Check if the spell is already active
         if (kouzlo.isAktivni()) {
-            return "Kouzlo " + kouzlo.getNazev() + " je již aktivní!";
+            return "\nKouzlo " + kouzlo.getNazev() + " je již aktivní!";
         }
 
         // Special dragon fight interactions

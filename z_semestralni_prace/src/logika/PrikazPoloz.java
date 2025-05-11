@@ -12,22 +12,26 @@ public class PrikazPoloz implements IPrikaz{
     public String provedPrikaz(String... parametry) {
         Batoh batoh = herniPlan.getBatoh();
         if(parametry.length == 0){
-            return "Co mám položit? Musíš zadat jméno věci";
+            return "\nCo mám položit? Musíš zadat jméno věci";
         }
 
         if(parametry.length > 1){
-            return "Každá věc je jednoslovná a ty jsi toho zadal moc";
+            return "\nKaždá věc je jednoslovná a ty jsi toho zadal moc";
         }
 
         String nazevVeci = parametry[0];
 
         if(!batoh.obsahujeVec(nazevVeci)){
-            return "Toto není v batohu";
+            return "\nToto není v batohu";
         }
 
-        //todo - zbytek metody
+        // Remove the item from the backpack and get it
+        Vec vec = batoh.odeberZBatohu(nazevVeci);
 
-        return "";
+        // Add the item to the current room
+        herniPlan.getAktualniProstor().vlozVec(vec);
+
+        return "\nPoložil jsi " + nazevVeci + " do prostoru " + herniPlan.getAktualniProstor().getNazev();
     }
 
     @Override
