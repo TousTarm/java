@@ -5,10 +5,10 @@ Tato hra je jednoduchá textová adventura, ve které hráč prozkoumává prost
 
 ## Jak hru spustit
 1. Otevřete příkazový řádek.
-2. Přesuňte se do složky obsahující soubor `jmenoArchivu.jar`.
+2. Přesuňte se do složky `/out/artifacts/adventuraZaklad_2020_origin_jar`.
 3. Spusťte hru příkazem:
    ```bash
-   java -jar jmenoArchivu.jar
+   java -jar adventuraZaklad_2020_origin.jar
    ```
 
 ## Cíl hry
