@@ -82,7 +82,7 @@ public class HraTest {
         assertEquals("Rychlým švihem jsi zámek přesek vejpůl a dveře se rozletěly.",
                 hra.zpracujPrikaz("utok zamek"));
         //15
-        assertEquals("Jsi v mistnosti/prostoru draci_sal, drak s obrovskými mocnými křídly a tlustou šupinatou kůží si te všimne a začne se smát. drak: 'Ty mně nikdy neporazíš', začne se zhluboka nadechovat.\n" +
+        assertEquals("Jsi v mistnosti/prostoru draci_sal, drak s obrovskými mocnými křídly a tlustou šupinatou kůží si tě všimne a začne se smát. drak: 'Ty mně nikdy neporazíš', začne se zhluboka nadechovat.\n" +
                 "východy: draci_doupe",
                 hra.zpracujPrikaz("jdi draci_sal"));
         //16

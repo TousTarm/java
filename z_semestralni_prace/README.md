@@ -7,3 +7,7 @@ Tomáš Rindt (rint00)
 
 Verze
 1.0
+
+PMD
+ruleset - https://github.com/pmd/pmd/blob/master/pmd-java/src/main/resources/rulesets/java/quickstart.xml   
+pmd - https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.13.0/pmd-dist-7.13.0-bin.zip
